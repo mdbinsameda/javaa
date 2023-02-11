@@ -1,0 +1,47 @@
+import org.apache.maven.model.*;
+import org.apache.maven.project.*;
+
+public class CreateMavenPackage {
+
+    public static void main(String[] args) {
+
+        // Create a new Maven project
+        MavenProject project = new MavenProject();
+
+        // Set the project information
+        project.setGroupId("com.example");
+        project.setArtifactId("my-maven-project");
+        project.setVersion("1.0.0");
+        project.setName("My Maven Project");
+        project.setDescription("This is my sample Maven project");
+
+        // Create a new build section in the project
+        Build build = new Build();
+        build.setFinalName("my-maven-project-1.0.0");
+        project.setBuild(build);
+
+        // Add the dependencies to the project
+        Dependency dependency1 = new Dependency();
+        dependency1.setGroupId("junit");
+        dependency1.setArtifactId("junit");
+        dependency1.setVersion("4.13");
+
+        Dependency dependency2 = new Dependency();
+        dependency2.setGroupId("org.hamcrest");
+        dependency2.setArtifactId("hamcrest-library");
+        dependency2.setVersion("2.2");
+
+        List<Dependency> dependencies = new ArrayList<>();
+        dependencies.add(dependency1);
+        dependencies.add(dependency2);
+        project.setDependencies(dependencies);
+
+        // Write the project information to a pom.xml file
+        try {
+            MavenXpp3Writer writer = new MavenXpp3Writer();
+            writer.write(new FileOutputStream("pom.xml"), project);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
